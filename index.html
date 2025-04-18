@@ -3,25 +3,42 @@
 <head>
   <meta charset="UTF-8">
   <title>Daftar Profile</title>
+  <style>
+    #loading {
+      font-style: italic;
+      color: gray;
+    }
+  </style>
 </head>
 <body>
   <h1>Daftar Profile</h1>
+  <p id="loading">Loading data...</p>
   <ul id="profile-list"></ul>
 
   <script>
-    // Fungsi ambil data dari API
+    const list = document.getElementById('profile-list');
+    const loading = document.getElementById('loading');
+
     fetch('https://thread-well-wolfsbane.glitch.me/profile')
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) throw new Error('Gagal fetch');
+        return response.json();
+      })
       .then(data => {
-        const list = document.getElementById('profile-list');
-        data.forEach(profile => {
-          const item = document.createElement('li');
-          item.textContent = `${profile.nama} - ${profile.email}`;
-          list.appendChild(item);
-        });
+        loading.style.display = 'none'; // Sembunyikan loading saat data sudah ada
+        if (data.length === 0) {
+          list.innerHTML = '<li>Tidak ada data.</li>';
+        } else {
+          data.forEach(profile => {
+            const item = document.createElement('li');
+            item.textContent = `${profile.nama} - ${profile.email}`;
+            list.appendChild(item);
+          });
+        }
       })
       .catch(error => {
         console.error('Gagal mengambil data:', error);
+        loading.textContent = 'Gagal memuat data.';
       });
   </script>
 </body>
