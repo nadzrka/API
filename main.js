@@ -1,5 +1,5 @@
 // Ganti dengan URL API Glitch Anda
-const apiUrl = 'https://thread-well-wolfsbane.glitch.me/';
+const apiUrl = 'https://thread-well-wolfsbane.glitch.me/profile';
 
 async function fetchProfiles() {
   try {
