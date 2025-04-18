@@ -1,14 +1,28 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Profile App</title>
+  <title>Daftar Profile</title>
 </head>
 <body>
-  <h1>Profiles:</h1>
-  <div id="profiles">Memuat data...</div>
+  <h1>Daftar Profile</h1>
+  <ul id="profile-list"></ul>
 
-  <!-- Module JS -->
-  <script type="module" src="main.js"></script>
+  <script>
+    // Fungsi ambil data dari API
+    fetch('http://localhost:3000/profile')
+      .then(response => response.json())
+      .then(data => {
+        const list = document.getElementById('profile-list');
+        data.forEach(profile => {
+          const item = document.createElement('li');
+          item.textContent = `${profile.nama} - ${profile.email}`;
+          list.appendChild(item);
+        });
+      })
+      .catch(error => {
+        console.error('Gagal mengambil data:', error);
+      });
+  </script>
 </body>
 </html>
