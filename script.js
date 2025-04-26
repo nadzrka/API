@@ -152,6 +152,20 @@ function editStickyNote(note, profileId) {
     });
 }
 
+const helloText = document.getElementById('hello-text');
+const message = 'Hello!';
+let index = 0;
+
+function typeHello() {
+  if (index < message.length) {
+    helloText.textContent += message.charAt(index);
+    index++;
+    setTimeout(typeHello, 200); // atur kecepatan ngetik di sini (200ms per huruf)
+  }
+}
+
+window.addEventListener('load', typeHello);
+
 
 // Auto-load sticky notes when page loads
 fetch('https://nadziraka.glitch.me/profile')
