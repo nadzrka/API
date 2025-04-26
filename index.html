@@ -2,44 +2,144 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Daftar Profile</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profil Pemilik Web</title>
   <style>
+    /* Umum */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: white;
+      color: #333;
+    }
+
+    h1 {
+      color: #B74D36; /* Warna merah bata */
+      text-align: center;
+      margin-top: 30px;
+      font-size: 2.5rem;
+    }
+
+    /* Wrapper untuk konten utama */
+    .container {
+      width: 90%;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      text-align: center;
+    }
+
+    /* Styling untuk data profil */
+    .profile-card {
+      background-color: #f9f9f9;
+      border-radius: 8px;
+      padding: 30px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+
+    .profile-card h2 {
+      color: #B74D36;
+      font-size: 2rem;
+      margin-bottom: 15px;
+    }
+
+    .profile-card p {
+      font-size: 1.1rem;
+      margin: 10px 0;
+    }
+
+    .profile-card .email {
+      font-weight: bold;
+      color: #555;
+    }
+
+    /* Tombol styling */
+    .btn {
+      background-color: #B74D36;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1.1rem;
+      margin-top: 20px;
+    }
+
+    .btn:hover {
+      background-color: #9e3d28;
+    }
+
+    /* Animasi Loading */
     #loading {
       font-style: italic;
       color: gray;
     }
+
+    /* Styling untuk footer */
+    footer {
+      background-color: #B74D36;
+      color: white;
+      text-align: center;
+      padding: 15px 0;
+      position: fixed;
+      width: 100%;
+      bottom: 0;
+    }
+
   </style>
 </head>
 <body>
-  <h1>Daftar Profile</h1>
-  <p id="loading">Loading data...</p>
-  <ul id="profile-list"></ul>
+  <h1>Profil Pemilik Web</h1>
+  
+  <div class="container">
+    <p id="loading">Loading data...</p>
+    
+    <div id="profile-container"></div>
+    <button class="btn" id="loadProfileBtn">Tampilkan Profil</button>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>Created with ❤️ by Pemilik Web</p>
+  </footer>
 
   <script>
-    const list = document.getElementById('profile-list');
+    const loadProfileBtn = document.getElementById('loadProfileBtn');
+    const profileContainer = document.getElementById('profile-container');
     const loading = document.getElementById('loading');
 
-    fetch('https://nadziraka.glitch.me/profile')
-      .then(response => {
-        if (!response.ok) throw new Error('Gagal fetch');
-        return response.json();
-      })
-      .then(data => {
-        loading.style.display = 'none'; // Sembunyikan loading saat data sudah ada
-        if (data.length === 0) {
-          list.innerHTML = '<li>Tidak ada data.</li>';
-        } else {
-          data.forEach(profile => {
-            const item = document.createElement('li');
-            item.textContent = `${profile.nama} - ${profile.nim}`;
-            list.appendChild(item);
-          });
-        }
-      })
-      .catch(error => {
-        console.error('Gagal mengambil data:', error);
-        loading.textContent = 'Gagal memuat data.';
-      });
+    loadProfileBtn.addEventListener('click', () => {
+      fetch('https://nadziraka.glitch.me/profile')
+        .then(response => {
+          if (!response.ok) throw new Error('Gagal fetch');
+          return response.json();
+        })
+        .then(data => {
+          loading.style.display = 'none'; // Sembunyikan loading saat data sudah ada
+          if (data.length === 0) {
+            profileContainer.innerHTML = '<p>Tidak ada data.</p>';
+          } else {
+            data.forEach(profile => {
+              const profileCard = document.createElement('div');
+              profileCard.classList.add('profile-card');
+
+              profileCard.innerHTML = `
+                <h2>${profile.nama}</h2>
+                <p>Email: <span class="email">${profile.email}</span></p>
+                <p>NIM: ${profile.nim}</p>
+              `;
+              
+              profileContainer.appendChild(profileCard);
+            });
+          }
+        })
+        .catch(error => {
+          console.error('Gagal mengambil data:', error);
+          loading.textContent = 'Gagal memuat data.';
+        });
+    });
   </script>
 </body>
 </html>
