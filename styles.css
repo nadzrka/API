@@ -13,6 +13,13 @@ body {
     margin-top: 30px;
     font-size: 2.5rem;
   }
+
+  h4 {
+    color: #B74D36;
+    text-align: center;
+    margin-top: 30px;
+    font-size: 1rem;
+  }
   
   .container {
     width: 90%;
@@ -32,7 +39,7 @@ body {
   
   .profile-card h3 {
     color: #B74D36;
-    font-size: 2rem;
+    font-size: 1.5rem;
     margin-bottom: 15px;
   }
   
