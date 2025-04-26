@@ -8,18 +8,20 @@ body {
   }
   
   h1 {
+    font-family: 'Courier New', Courier, monospace; /* Biar lebih kayak mesin ketik */
     overflow: hidden;
-    border-right: .15em solid orange;
     white-space: nowrap;
+    border-right: 3px solid orange;
+    width: 0;
+    animation: typing 2s steps(6, end) forwards, blink-caret 0.75s step-end infinite;
     margin: 0 auto;
-    letter-spacing: .1em;
-    animation: typing 2s steps(10, end), blink-caret .75s step-end infinite;
-    width: max-content;
+    font-size: 2.5rem;
+    text-align: center;
   }
 
   @keyframes typing {
     from { width: 0 }
-    to { width: 100% }
+    to { width: 8ch } /* 8 karakter (H e l l o !) termasuk spasi */
   }
 
   @keyframes blink-caret {
