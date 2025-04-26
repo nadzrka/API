@@ -86,8 +86,8 @@ function editStickyNote(note, profileId) {
     note.innerHTML = `
       <h4>Edit Note</h4>
       <textarea>${currentContent}</textarea>
-      <button class="btn save-btn">Save</button>
-      <button class="btn cancel-btn">Cancel</button>
+      <button class="editbtn save-btn">Save</button>
+      <button class="editbtn cancel-btn">Cancel</button>
     `;
   
     const saveBtn = note.querySelector('.save-btn');
