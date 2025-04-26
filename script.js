@@ -88,10 +88,10 @@ function editStickyNote(note, profileId) {
     // Make both fields editable
     note.innerHTML = `
       <h4>Edit Profile</h4>
-      <label for="nama">Nama:</label>
-      <textarea id="nama">${currentTitle}</textarea>
-      <label for="nim">NIM:</label>
-      <textarea id="nim">${currentContent}</textarea>
+      <label for="judul">Judul:</label>
+      <textarea id="judul">${currentTitle}</textarea>
+      <label for="isi">Isi:</label>
+      <textarea id="isi">${currentContent}</textarea>
       <button class="editbtn save-btn">Save</button>
       <button class="editbtn cancel-btn">Cancel</button>
     `;
@@ -100,8 +100,8 @@ function editStickyNote(note, profileId) {
     const cancelBtn = note.querySelector('.cancel-btn');
 
     saveBtn.addEventListener('click', () => {
-      const updatedTitle = note.querySelector('#nama').value;
-      const updatedContent = note.querySelector('#nim').value;
+      const updatedTitle = note.querySelector('#judul').value;
+      const updatedContent = note.querySelector('#isi').value;
 
       console.log('Saving...', { updatedTitle, updatedContent, profileId });  // Debugging log
 
