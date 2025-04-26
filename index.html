@@ -79,29 +79,40 @@
       bottom: 0;
     }
 
+    /* Sticky Notes Container */
+    .sticky-notes-wrapper {
+      width: 90%;
+      max-width: 800px;
+      margin: 30px auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+    }
+
     /* Sticky Note */
     .sticky-note {
-      background-color: #fff9c4; /* Warna kuning terang */
-      border: 1px solid #f0e68c;
-      box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+      width: 150px;
+      height: 150px;
       padding: 15px;
       border-radius: 8px;
-      margin-top: 20px;
+      box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
       text-align: left;
+      overflow-wrap: break-word;
     }
 
     .sticky-note h4 {
       margin-top: 0;
-      color: #b74d36;
+      font-size: 1rem;
     }
 
-    .sticky-note ul {
-      padding-left: 20px;
-    }
-
-    .sticky-note li {
-      margin-bottom: 5px;
-    }
+    /* Warna-warni sticky notes */
+    .yellow { background-color: #fff9c4; border: 1px solid #f0e68c; }
+    .pink { background-color: #ffcdd2; border: 1px solid #e57373; }
+    .blue { background-color: #bbdefb; border: 1px solid #64b5f6; }
+    .green { background-color: #c8e6c9; border: 1px solid #81c784; }
+    .purple { background-color: #e1bee7; border: 1px solid #ba68c8; }
+    .orange { background-color: #ffe0b2; border: 1px solid #ffb74d; }
   </style>
 </head>
 <body>
@@ -111,7 +122,11 @@
     <p id="loading" style="display: none;">Loading data...</p>
     <div id="profile-container"></div>
     <button class="btn" id="loadProfileBtn">Tampilkan Profil</button>
-    <div id="sticky-container"></div> <!-- Tempat sticky note -->
+  </div>
+
+  <!-- Sticky Notes (di luar container utama) -->
+  <div class="sticky-notes-wrapper" id="sticky-wrapper">
+    <!-- Sticky notes akan muncul di sini -->
   </div>
 
   <!-- Footer -->
@@ -124,7 +139,7 @@
     const profileContainer = document.getElementById('profile-container');
     const loading = document.getElementById('loading');
     const container = document.querySelector('.container');
-    const stickyContainer = document.getElementById('sticky-container');
+    const stickyWrapper = document.getElementById('sticky-wrapper');
 
     loadBtn.addEventListener('click', () => {
       loading.style.display = 'block';
@@ -164,11 +179,10 @@
               profileContainer.innerHTML = '';
               closeBtn.remove();
               loadBtn.style.display = 'inline-block';
-              stickyContainer.innerHTML = ''; // Hapus sticky note kalau tutup
             });
 
-            // Bikin Sticky Note GET UI
-            createStickyNote(data);
+            // Update Sticky Notes
+            updateStickyNotes(data);
           }
         })
         .catch(error => {
@@ -178,20 +192,27 @@
         });
     });
 
-    function createStickyNote(profiles) {
-      stickyContainer.innerHTML = ''; // Clear kalau ada sebelumnya
+    function updateStickyNotes(profiles) {
+      stickyWrapper.innerHTML = ''; // Bersihkan dulu
 
-      const note = document.createElement('div');
-      note.className = 'sticky-note';
+      const colors = ['yellow', 'pink', 'blue', 'green', 'purple', 'orange'];
+      const jumlahNotes = 6;
 
-      let content = '<h4>Data Profil:</h4><ul>';
-      profiles.forEach(profile => {
-        content += `<li>${profile.nama} (${profile.nim})</li>`;
-      });
-      content += '</ul>';
+      for (let i = 0; i < jumlahNotes; i++) {
+        const note = document.createElement('div');
+        note.className = `sticky-note ${colors[i % colors.length]}`;
 
-      note.innerHTML = content;
-      stickyContainer.appendChild(note);
+        if (profiles[i]) {
+          note.innerHTML = `
+            <h4>${profiles[i].nama}</h4>
+            <p>${profiles[i].nim}</p>
+          `;
+        } else {
+          note.innerHTML = '<h4>Empty</h4>';
+        }
+
+        stickyWrapper.appendChild(note);
+      }
     }
   </script>
 </body>
