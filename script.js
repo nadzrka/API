@@ -103,14 +103,17 @@ function editStickyNote(note, profileId) {
       const updatedTitle = note.querySelector('#nama').value;
       const updatedContent = note.querySelector('#nim').value;
 
-      // Send the updated fields to the API
-      fetch('https://nadziraka.glitch.me/profile/' + (profileId || ''), {
-        method: 'POST', // Use POST for adding new notes, PUT for editing existing ones
+      // Jika profileId ada, lakukan PUT untuk update, jika tidak lakukan POST untuk menambah data baru
+      const method = profileId ? 'PUT' : 'POST';
+      const url = profileId ? 'https://nadziraka.glitch.me/profile/' + profileId : 'https://nadziraka.glitch.me/profile';
+      
+      fetch(url, {
+        method: method,
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          id: profileId || Date.now(),  // Ensure a unique ID for new notes
+          id: profileId || Date.now(),  // Jika tidak ada profileId, buat ID baru
           nama: updatedTitle,
           nim: updatedContent,
         }),
@@ -124,7 +127,7 @@ function editStickyNote(note, profileId) {
           <button class="btn edit-btn">Edit</button>
         `;
         const editBtn = note.querySelector('.edit-btn');
-        editBtn.addEventListener('click', () => editStickyNote(note, profileId ? profileId : null));
+        editBtn.addEventListener('click', () => editStickyNote(note, profileId || null));
       })
       .catch(error => {
         console.error('Error saving note:', error);
@@ -139,9 +142,10 @@ function editStickyNote(note, profileId) {
         <button class="btn edit-btn">Edit</button>
       `;
       const editBtn = note.querySelector('.edit-btn');
-      editBtn.addEventListener('click', () => editStickyNote(note, profileId ? profileId : null));
+      editBtn.addEventListener('click', () => editStickyNote(note, profileId || null));
     });
 }
+
 
 // Auto-load sticky notes when page loads
 fetch('https://nadziraka.glitch.me/profile')
