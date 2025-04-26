@@ -63,15 +63,19 @@ function updateStickyNotes(profiles) {
       note.innerHTML = `
         <h4>${profiles[i].nama}</h4>
         <p>${profiles[i].nim}</p>
+        <button class="btn edit-btn">Edit</button>
       `;
     } else {
       note.innerHTML = `
         <h4>Belum Ada</h4>
         <p>😺 Kosong nih</p>
+        <button class="btn edit-btn">Edit</button>
       `;
     }
 
     stickyWrapper.appendChild(note);
+    const editBtn = note.querySelector('.edit-btn');
+    editBtn.addEventListener('click', () => editStickyNote(note, profiles[i] ? profiles[i].id : null));
   }
 }
 
