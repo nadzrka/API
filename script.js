@@ -87,7 +87,7 @@ function editStickyNote(note, profileId) {
     // Make both fields editable
     note.innerHTML = `
       <h4>Edit Notes</h4>
-      <label for="judul">Judul:</label>
+      <label for="judul">Nama:</label>
       <textarea id="judul">${currentTitle}</textarea>
       <label for="isi">Isi:</label>
       <textarea id="isi">${currentContent}</textarea>
