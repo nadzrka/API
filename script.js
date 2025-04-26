@@ -179,3 +179,27 @@ fetch('https://nadziraka.glitch.me/profile')
   .catch(error => {
     console.error('Gagal mengambil data untuk sticky notes:', error);
   });
+
+  function createFlower() {
+    const flower = document.createElement('div');
+    flower.classList.add('flower');
+    flower.textContent = '🌸';
+  
+    // Random posisi kiri
+    flower.style.left = Math.random() * 100 + 'vw';
+    // Random ukuran bunga
+    flower.style.fontSize = (Math.random() * 1.5 + 1) + 'rem';
+    // Random animasi durasi
+    flower.style.animationDuration = (Math.random() * 5 + 5) + 's';
+  
+    document.body.appendChild(flower);
+  
+    // Hapus bunga setelah jatuh biar nggak berat
+    setTimeout(() => {
+      flower.remove();
+    }, 10000); // 10 detik = sama kayak durasi animasi
+  }
+  
+  // Bikin bunga terus tiap 500ms
+  setInterval(createFlower, 500);
+  
