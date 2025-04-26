@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>MyWeb</title>
   <style>
     /* Umum */
@@ -15,13 +15,12 @@
     }
 
     h1 {
-      color: #B74D36; /* Warna merah bata */
+      color: #B74D36;
       text-align: center;
       margin-top: 30px;
       font-size: 2.5rem;
     }
 
-    /* Wrapper untuk konten utama */
     .container {
       width: 90%;
       max-width: 600px;
@@ -30,12 +29,11 @@
       text-align: center;
     }
 
-    /* Styling untuk data profil */
     .profile-card {
       background-color: #f9f9f9;
       border-radius: 8px;
       padding: 30px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
       margin-bottom: 20px;
     }
 
@@ -50,12 +48,6 @@
       margin: 10px 0;
     }
 
-    .profile-card .email {
-      font-weight: bold;
-      color: #555;
-    }
-
-    /* Tombol styling */
     .btn {
       background-color: #B74D36;
       color: white;
@@ -71,14 +63,12 @@
       background-color: #9e3d28;
     }
 
-    /* Animasi Loading */
     #loading {
       font-style: italic;
       color: gray;
       margin-top: 20px;
     }
 
-    /* Styling untuk footer */
     footer {
       background-color: #B74D36;
       color: white;
@@ -89,6 +79,29 @@
       bottom: 0;
     }
 
+    /* Sticky Note */
+    .sticky-note {
+      background-color: #fff9c4; /* Warna kuning terang */
+      border: 1px solid #f0e68c;
+      box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 20px;
+      text-align: left;
+    }
+
+    .sticky-note h4 {
+      margin-top: 0;
+      color: #b74d36;
+    }
+
+    .sticky-note ul {
+      padding-left: 20px;
+    }
+
+    .sticky-note li {
+      margin-bottom: 5px;
+    }
   </style>
 </head>
 <body>
@@ -98,6 +111,7 @@
     <p id="loading" style="display: none;">Loading data...</p>
     <div id="profile-container"></div>
     <button class="btn" id="loadProfileBtn">Tampilkan Profil</button>
+    <div id="sticky-container"></div> <!-- Tempat sticky note -->
   </div>
 
   <!-- Footer -->
@@ -110,9 +124,9 @@
     const profileContainer = document.getElementById('profile-container');
     const loading = document.getElementById('loading');
     const container = document.querySelector('.container');
+    const stickyContainer = document.getElementById('sticky-container');
 
     loadBtn.addEventListener('click', () => {
-      // Tampilkan loading dan sembunyikan tombol load
       loading.style.display = 'block';
       loadBtn.style.display = 'none';
 
@@ -122,7 +136,7 @@
           return response.json();
         })
         .then(data => {
-          loading.style.display = 'none'; // Sembunyikan loading
+          loading.style.display = 'none';
 
           if (data.length === 0) {
             profileContainer.innerHTML = '<p>Tidak ada data.</p>';
@@ -139,7 +153,6 @@
             });
           }
 
-          // Tambahkan tombol tutup jika belum ada
           if (!document.getElementById('closeProfileBtn')) {
             const closeBtn = document.createElement('button');
             closeBtn.id = 'closeProfileBtn';
@@ -151,7 +164,11 @@
               profileContainer.innerHTML = '';
               closeBtn.remove();
               loadBtn.style.display = 'inline-block';
+              stickyContainer.innerHTML = ''; // Hapus sticky note kalau tutup
             });
+
+            // Bikin Sticky Note GET UI
+            createStickyNote(data);
           }
         })
         .catch(error => {
@@ -160,6 +177,22 @@
           loadBtn.style.display = 'inline-block';
         });
     });
+
+    function createStickyNote(profiles) {
+      stickyContainer.innerHTML = ''; // Clear kalau ada sebelumnya
+
+      const note = document.createElement('div');
+      note.className = 'sticky-note';
+
+      let content = '<h4>Data Profil:</h4><ul>';
+      profiles.forEach(profile => {
+        content += `<li>${profile.nama} (${profile.nim})</li>`;
+      });
+      content += '</ul>';
+
+      note.innerHTML = content;
+      stickyContainer.appendChild(note);
+    }
   </script>
 </body>
 </html>
