@@ -63,7 +63,6 @@ function updateStickyNotes(profiles) {
       note.innerHTML = `
         <h4>${profiles[i].judul}</h4>
         <p>${profiles[i].isi}</p>
-        <button class="btn edit-btn">Edit</button>
       `;
     } else {
       note.innerHTML = `
