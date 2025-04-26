@@ -217,13 +217,26 @@
         } else {
           note.innerHTML = `
             <h4>Belum Ada</h4>
-            <p>😺 Kosong nih</p>
+            <p>😺 kKosong nih</p>
           `;
         }
 
         stickyWrapper.appendChild(note);
       }
     }
+
+    // Auto-load sticky notes when page loads
+    fetch('https://nadziraka.glitch.me/profile')
+      .then(response => {
+        if (!response.ok) throw new Error('Gagal fetch');
+        return response.json();
+      })
+      .then(data => {
+        updateStickyNotes(data);
+      })
+      .catch(error => {
+        console.error('Gagal mengambil data untuk sticky notes:', error);
+      });
   </script>
 </body>
 </html>
