@@ -75,6 +75,49 @@ function updateStickyNotes(profiles) {
   }
 }
 
+function editStickyNote(note, profileId) {
+    const currentContent = note.querySelector('p').textContent;
+  
+    // Make the sticky note editable
+    note.innerHTML = `
+      <h4>Edit Note</h4>
+      <textarea>${currentContent}</textarea>
+      <button class="btn save-btn">Save</button>
+      <button class="btn cancel-btn">Cancel</button>
+    `;
+  
+    const saveBtn = note.querySelector('.save-btn');
+    const cancelBtn = note.querySelector('.cancel-btn');
+  
+    saveBtn.addEventListener('click', () => {
+      const updatedContent = note.querySelector('textarea').value;
+  
+      // Send the updated content via a POST request
+      fetch('https://nadziraka.glitch.me/profile/' + (profileId || ''), {
+        method: 'POST', // PUT if editing existing note, POST if adding new note
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: profileId || Date.now(),  // Ensure a unique ID for new notes
+          content: updatedContent
+        }),
+      })
+      .then(response => response.json())
+      .then(() => {
+        // Refresh sticky notes after save
+        updateStickyNotes([]);
+      })
+      .catch(error => {
+        console.error('Error saving note:', error);
+      });
+    });
+  
+    cancelBtn.addEventListener('click', () => {
+      updateStickyNotes([]); // Revert to original sticky notes state
+    });
+  }
+
 // Auto-load sticky notes when page loads
 fetch('https://nadziraka.glitch.me/profile')
   .then(response => {
