@@ -37,7 +37,7 @@
       margin-bottom: 20px;
     }
 
-    .profile-card h2 {
+    .profile-card h3 {
       color: #B74D36;
       font-size: 2rem;
       margin-bottom: 15px;
@@ -76,6 +76,7 @@
       padding: 15px 0;
       width: 100%;
       bottom: 0;
+      position: relative;
     }
 
     /* Sticky Notes Container */
@@ -98,10 +99,14 @@
       box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
       text-align: left;
       overflow-wrap: break-word;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
     }
 
     .sticky-note h4 {
-      margin-top: 0;
+      margin: 0 0 8px 0;
       font-size: 1rem;
     }
 
@@ -116,19 +121,19 @@
 </head>
 <body>
   <main>
-  <h1>Hello!</h1>
-  
-  <div class="container">
-    <p id="loading" style="display: none;">Loading data...</p>
-    <div id="profile-container"></div>
-    <button class="btn" id="loadProfileBtn">Tampilkan Profil</button>
-  </div>
+    <h1>Hello!</h1>
 
-  <!-- Sticky Notes (di luar container utama) -->
-  <div class="sticky-notes-wrapper" id="sticky-wrapper">
-    <!-- Sticky notes akan muncul di sini -->
-  </div>
-     </main>
+    <div class="container">
+      <p id="loading" style="display: none;">Loading data...</p>
+      <div id="profile-container"></div>
+      <button class="btn" id="loadProfileBtn">Tampilkan Profil</button>
+    </div>
+
+    <!-- Sticky Notes (di luar container utama) -->
+    <div class="sticky-notes-wrapper" id="sticky-wrapper">
+      <!-- Sticky notes akan muncul di sini -->
+    </div>
+  </main>
 
   <!-- Footer -->
   <footer>
@@ -157,6 +162,7 @@
           if (data.length === 0) {
             profileContainer.innerHTML = '<p>Tidak ada data.</p>';
           } else {
+            profileContainer.innerHTML = ''; // Clear dulu
             data.forEach(profile => {
               const card = document.createElement('div');
               card.classList.add('profile-card');
@@ -169,6 +175,8 @@
             });
           }
 
+          updateStickyNotes(data); // <-- dipanggil di sini supaya sticky notes selalu update
+
           if (!document.getElementById('closeProfileBtn')) {
             const closeBtn = document.createElement('button');
             closeBtn.id = 'closeProfileBtn';
@@ -180,10 +188,8 @@
               profileContainer.innerHTML = '';
               closeBtn.remove();
               loadBtn.style.display = 'inline-block';
+              stickyWrapper.innerHTML = ''; // Clear sticky notes juga
             });
-
-            // Update Sticky Notes
-            updateStickyNotes(data);
           }
         })
         .catch(error => {
@@ -209,7 +215,10 @@
             <p>${profiles[i].nim}</p>
           `;
         } else {
-          note.innerHTML = '<h4>Empty</h4>';
+          note.innerHTML = `
+            <h4>Belum Ada</h4>
+            <p>😺 Kosong nih</p>
+          `;
         }
 
         stickyWrapper.appendChild(note);
