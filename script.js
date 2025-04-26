@@ -103,24 +103,30 @@ function editStickyNote(note, profileId) {
       const updatedTitle = note.querySelector('#nama').value;
       const updatedContent = note.querySelector('#nim').value;
 
-      // Jika profileId ada, lakukan PUT untuk update, jika tidak lakukan POST untuk menambah data baru
+      console.log('Saving...', { updatedTitle, updatedContent, profileId });  // Debugging log
+
       const method = profileId ? 'PUT' : 'POST';
-      const url = profileId ? 'https://nadziraka.glitch.me/profile/' + profileId : 'https://nadziraka.glitch.me/profile';
-      
+      const url = profileId ? `https://nadziraka.glitch.me/profile/${profileId}` : 'https://nadziraka.glitch.me/profile';
+
       fetch(url, {
         method: method,
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          id: profileId || Date.now(),  // Jika tidak ada profileId, buat ID baru
+          id: profileId || Date.now(),  // If no profileId, generate a new ID
           nama: updatedTitle,
           nim: updatedContent,
         }),
       })
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to save data');
+        }
+        return response.json();
+      })
       .then(() => {
-        // After saving, just update the content of the note without reloading everything
+        // After saving, update the note content without reloading everything
         note.innerHTML = `
           <h4>${updatedTitle}</h4>
           <p>${updatedContent}</p>
@@ -131,11 +137,12 @@ function editStickyNote(note, profileId) {
       })
       .catch(error => {
         console.error('Error saving note:', error);
+        alert('Failed to save note');
       });
     });
 
     cancelBtn.addEventListener('click', () => {
-      // Simply revert to the original content when canceling
+      // Revert to the original content when canceling
       note.innerHTML = `
         <h4>${originalTitle}</h4>
         <p>${originalContent}</p>
