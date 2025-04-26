@@ -80,13 +80,18 @@ function updateStickyNotes(profiles) {
 }
 
 function editStickyNote(note, profileId) {
+    const currentTitle = note.querySelector('h4').textContent;
     const currentContent = note.querySelector('p').textContent;
+    const originalTitle = currentTitle; // Store the original title
     const originalContent = currentContent; // Store the original content
 
-    // Make the sticky note editable
+    // Make both fields editable
     note.innerHTML = `
-      <h4>Edit Note</h4>
-      <textarea>${currentContent}</textarea>
+      <h4>Edit Profile</h4>
+      <label for="nama">Nama:</label>
+      <textarea id="nama">${currentTitle}</textarea>
+      <label for="nim">NIM:</label>
+      <textarea id="nim">${currentContent}</textarea>
       <button class="editbtn save-btn">Save</button>
       <button class="editbtn cancel-btn">Cancel</button>
     `;
@@ -95,9 +100,10 @@ function editStickyNote(note, profileId) {
     const cancelBtn = note.querySelector('.cancel-btn');
 
     saveBtn.addEventListener('click', () => {
-      const updatedContent = note.querySelector('textarea').value;
+      const updatedTitle = note.querySelector('#nama').value;
+      const updatedContent = note.querySelector('#nim').value;
 
-      // Send the updated content via a POST request
+      // Send the updated fields to the API
       fetch('https://nadziraka.glitch.me/profile/' + (profileId || ''), {
         method: 'POST', // Use POST for adding new notes, PUT for editing existing ones
         headers: {
@@ -105,14 +111,15 @@ function editStickyNote(note, profileId) {
         },
         body: JSON.stringify({
           id: profileId || Date.now(),  // Ensure a unique ID for new notes
-          content: updatedContent,
+          nama: updatedTitle,
+          nim: updatedContent,
         }),
       })
       .then(response => response.json())
       .then(() => {
         // After saving, just update the content of the note without reloading everything
         note.innerHTML = `
-          <h4>${profileId ? 'Note' : 'Belum Ada'}</h4>
+          <h4>${updatedTitle}</h4>
           <p>${updatedContent}</p>
           <button class="btn edit-btn">Edit</button>
         `;
@@ -127,7 +134,7 @@ function editStickyNote(note, profileId) {
     cancelBtn.addEventListener('click', () => {
       // Simply revert to the original content when canceling
       note.innerHTML = `
-        <h4>${profileId ? 'Note' : 'Belum Ada'}</h4>
+        <h4>${originalTitle}</h4>
         <p>${originalContent}</p>
         <button class="btn edit-btn">Edit</button>
       `;
