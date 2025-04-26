@@ -81,7 +81,8 @@ function updateStickyNotes(profiles) {
 
 function editStickyNote(note, profileId) {
     const currentContent = note.querySelector('p').textContent;
-    const originalContent = currentContent;
+    const originalContent = currentContent; // Store the original content
+
     // Make the sticky note editable
     note.innerHTML = `
       <h4>Edit Note</h4>
@@ -89,45 +90,51 @@ function editStickyNote(note, profileId) {
       <button class="editbtn save-btn">Save</button>
       <button class="editbtn cancel-btn">Cancel</button>
     `;
-  
+
     const saveBtn = note.querySelector('.save-btn');
     const cancelBtn = note.querySelector('.cancel-btn');
-  
+
     saveBtn.addEventListener('click', () => {
       const updatedContent = note.querySelector('textarea').value;
-  
+
       // Send the updated content via a POST request
       fetch('https://nadziraka.glitch.me/profile/' + (profileId || ''), {
-        method: 'POST', // PUT if editing existing note, POST if adding new note
+        method: 'POST', // Use POST for adding new notes, PUT for editing existing ones
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           id: profileId || Date.now(),  // Ensure a unique ID for new notes
-          content: updatedContent
+          content: updatedContent,
         }),
       })
       .then(response => response.json())
       .then(() => {
-        // Refresh sticky notes after save
-        updateStickyNotes([]);
+        // After saving, just update the content of the note without reloading everything
+        note.innerHTML = `
+          <h4>${profileId ? 'Note' : 'Belum Ada'}</h4>
+          <p>${updatedContent}</p>
+          <button class="btn edit-btn">Edit</button>
+        `;
+        const editBtn = note.querySelector('.edit-btn');
+        editBtn.addEventListener('click', () => editStickyNote(note, profileId ? profileId : null));
       })
       .catch(error => {
         console.error('Error saving note:', error);
       });
     });
-  
+
     cancelBtn.addEventListener('click', () => {
-        note.innerHTML = `
+      // Simply revert to the original content when canceling
+      note.innerHTML = `
         <h4>${profileId ? 'Note' : 'Belum Ada'}</h4>
         <p>${originalContent}</p>
         <button class="btn edit-btn">Edit</button>
       `;
-  
       const editBtn = note.querySelector('.edit-btn');
       editBtn.addEventListener('click', () => editStickyNote(note, profileId ? profileId : null));
     });
-  }
+}
 
 // Auto-load sticky notes when page loads
 fetch('https://nadziraka.glitch.me/profile')
