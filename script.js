@@ -61,8 +61,8 @@ function updateStickyNotes(profiles) {
 
     if (profiles[i]) {
       note.innerHTML = `
-        <h4>${profiles[i].nama}</h4>
-        <p>${profiles[i].nim}</p>
+        <h4>${profiles[i].judul}</h4>
+        <p>${profiles[i].isi}</p>
         <button class="btn edit-btn">Edit</button>
       `;
     } else {
@@ -115,8 +115,8 @@ function editStickyNote(note, profileId) {
         },
         body: JSON.stringify({
           id: profileId || Date.now(),  // If no profileId, generate a new ID
-          nama: updatedTitle,
-          nim: updatedContent,
+          judul: updatedTitle,
+          isi: updatedContent,
         }),
       })
       .then(response => {
