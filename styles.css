@@ -1,0 +1,113 @@
+/* Umum */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    color: #333;
+  }
+  
+  h1 {
+    color: #B74D36;
+    text-align: center;
+    margin-top: 30px;
+    font-size: 2.5rem;
+  }
+  
+  .container {
+    width: 90%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .profile-card {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+  }
+  
+  .profile-card h3 {
+    color: #B74D36;
+    font-size: 2rem;
+    margin-bottom: 15px;
+  }
+  
+  .profile-card p {
+    font-size: 1.1rem;
+    margin: 10px 0;
+  }
+  
+  .btn {
+    background-color: #B74D36;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    margin: 10px 5px 0 5px;
+  }
+  
+  .btn:hover {
+    background-color: #9e3d28;
+  }
+  
+  #loading {
+    font-style: italic;
+    color: gray;
+    margin-top: 20px;
+  }
+  
+  footer {
+    background-color: #B74D36;
+    color: white;
+    text-align: center;
+    padding: 15px 0;
+    width: 100%;
+    bottom: 0;
+    position: relative;
+  }
+  
+  /* Sticky Notes Container */
+  .sticky-notes-wrapper {
+    width: 90%;
+    max-width: 800px;
+    margin: 30px auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+  }
+  
+  /* Sticky Note */
+  .sticky-note {
+    width: 150px;
+    height: 150px;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+    text-align: left;
+    overflow-wrap: break-word;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .sticky-note h4 {
+    margin: 0 0 8px 0;
+    font-size: 1rem;
+  }
+  
+  /* Warna-warni sticky notes */
+  .yellow { background-color: #fff9c4; border: 1px solid #f0e68c; }
+  .pink { background-color: #ffcdd2; border: 1px solid #e57373; }
+  .blue { background-color: #bbdefb; border: 1px solid #64b5f6; }
+  .green { background-color: #c8e6c9; border: 1px solid #81c784; }
+  .purple { background-color: #e1bee7; border: 1px solid #ba68c8; }
+  .orange { background-color: #ffe0b2; border: 1px solid #ffb74d; }
+  
