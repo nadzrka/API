@@ -64,7 +64,7 @@
       border-radius: 5px;
       cursor: pointer;
       font-size: 1.1rem;
-      margin-top: 20px;
+      margin: 10px 5px 0 5px;
     }
 
     .btn:hover {
@@ -75,6 +75,7 @@
     #loading {
       font-style: italic;
       color: gray;
+      margin-top: 20px;
     }
 
     /* Styling untuk footer */
@@ -93,49 +94,71 @@
 <body>
   <h1>Hello!</h1>
   
-  <div class="container">    
-     <p id="loading">Loading data...</p>
+  <div class="container">
+    <p id="loading" style="display: none;">Loading data...</p>
     <div id="profile-container"></div>
     <button class="btn" id="loadProfileBtn">Tampilkan Profil</button>
   </div>
 
   <!-- Footer -->
   <footer>
-    <p>Created with ❤️ by dira</p>
+    <p>Created with ❤️ by Dira</p>
   </footer>
 
   <script>
-    const loadProfileBtn = document.getElementById('loadProfileBtn');
+    const loadBtn = document.getElementById('loadProfileBtn');
     const profileContainer = document.getElementById('profile-container');
     const loading = document.getElementById('loading');
+    const container = document.querySelector('.container');
 
-    loadProfileBtn.addEventListener('click', () => {
+    loadBtn.addEventListener('click', () => {
+      // Tampilkan loading dan sembunyikan tombol load
+      loading.style.display = 'block';
+      loadBtn.style.display = 'none';
+
       fetch('https://nadziraka.glitch.me/profile')
         .then(response => {
           if (!response.ok) throw new Error('Gagal fetch');
           return response.json();
         })
         .then(data => {
-          loading.style.display = 'none'; // Sembunyikan loading saat data sudah ada
+          loading.style.display = 'none'; // Sembunyikan loading
+
           if (data.length === 0) {
             profileContainer.innerHTML = '<p>Tidak ada data.</p>';
           } else {
             data.forEach(profile => {
-              const profileCard = document.createElement('div');
-              profileCard.classList.add('profile-card');
+              const card = document.createElement('div');
+              card.classList.add('profile-card');
 
-              profileCard.innerHTML = `
+              card.innerHTML = `
                 <h2>${profile.nama}</h2>
+                <p>Email: <span class="email">${profile.email}</span></p>
                 <p>NIM: ${profile.nim}</p>
               `;
-              
-              profileContainer.appendChild(profileCard);
+              profileContainer.appendChild(card);
+            });
+          }
+
+          // Tambahkan tombol tutup jika belum ada
+          if (!document.getElementById('closeProfileBtn')) {
+            const closeBtn = document.createElement('button');
+            closeBtn.id = 'closeProfileBtn';
+            closeBtn.className = 'btn';
+            closeBtn.textContent = 'Tutup Profil';
+            container.appendChild(closeBtn);
+
+            closeBtn.addEventListener('click', () => {
+              profileContainer.innerHTML = '';
+              closeBtn.remove();
+              loadBtn.style.display = 'inline-block';
             });
           }
         })
         .catch(error => {
           console.error('Gagal mengambil data:', error);
           loading.textContent = 'Gagal memuat data.';
+          loadBtn.style.display = 'inline-block';
         });
     });
   </script>
