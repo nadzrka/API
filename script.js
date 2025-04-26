@@ -153,7 +153,6 @@ function editStickyNote(note, profileId) {
 }
 
 const helloText = document.getElementById('hello-text');
-const message = 'Hello!';
 let index = 0;
 
 function typeHello() {
