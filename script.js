@@ -81,7 +81,7 @@ function updateStickyNotes(profiles) {
 
 function editStickyNote(note, profileId) {
     const currentContent = note.querySelector('p').textContent;
-  
+    const originalContent = currentContent;
     // Make the sticky note editable
     note.innerHTML = `
       <h4>Edit Note</h4>
@@ -118,7 +118,14 @@ function editStickyNote(note, profileId) {
     });
   
     cancelBtn.addEventListener('click', () => {
-      updateStickyNotes([]); // Revert to original sticky notes state
+        note.innerHTML = `
+        <h4>${profileId ? 'Note' : 'Belum Ada'}</h4>
+        <p>${originalContent}</p>
+        <button class="btn edit-btn">Edit</button>
+      `;
+  
+      const editBtn = note.querySelector('.edit-btn');
+      editBtn.addEventListener('click', () => editStickyNote(note, profileId ? profileId : null));
     });
   }
 
