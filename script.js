@@ -84,7 +84,6 @@ function editStickyNote(note, profileId) {
     const currentContent = note.querySelector('p').textContent;
     const originalTitle = currentTitle; // Store the original title
     const originalContent = currentContent; // Store the original content
-    <h4>Tulis Pesanmu!</h4>
     // Make both fields editable
     note.innerHTML = `
       <h4>Edit Notes</h4>
