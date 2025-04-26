@@ -158,16 +158,16 @@
         })
         .then(data => {
           loading.style.display = 'none';
-
-           {
-            
+       
+            profileContainer.innerHTML = ''; 
+              const card = document.createElement('div');
+              card.classList.add('profile-card');
 
               card.innerHTML = `
                 <h3>Nadzira Karimantika Atsarirahmati</h3>
                 <p>NIM: L0122118</p>
               `;
-              
-          }
+              profileContainer.appendChild(card);          
 
           updateStickyNotes(data); // <-- dipanggil di sini supaya sticky notes selalu update
 
