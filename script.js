@@ -65,11 +65,17 @@ function updateStickyNotes(profiles) {
         <p>${profiles[i].isi}</p>
         <button class="btn edit-btn">Edit</button>
       `;
+      if (!profiles[i].judul || !profiles[i].isi) {
+        const editBtn = document.createElement('button');
+        editBtn.className = 'btn edit-btn';
+        editBtn.textContent = 'Edit';
+        note.appendChild(editBtn);
+        editBtn.addEventListener('click', () => editStickyNote(note, profiles[i].id));
+      }
     } else {
       note.innerHTML = `
         <h4>Belum Ada</h4>
         <p>😺 Kosong nih</p>
-        <button class="btn edit-btn">Edit</button>
       `;
     }
 
