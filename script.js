@@ -8,7 +8,7 @@ loadBtn.addEventListener('click', () => {
   loading.style.display = 'block';
   loadBtn.style.display = 'none';
 
-  fetch('https://nadziraka.glitch.me/profile')
+  fetch('https://nadziraka.glitch.me/notes')
     .then(response => {
       if (!response.ok) throw new Error('Gagal fetch');
       return response.json();
@@ -105,7 +105,7 @@ function editStickyNote(note, profileId) {
       console.log('Saving...', { updatedTitle, updatedContent, profileId });  // Debugging log
 
       const method = profileId ? 'PUT' : 'POST';
-      const url = profileId ? `https://nadziraka.glitch.me/profile/${profileId}` : 'https://nadziraka.glitch.me/profile';
+      const url = profileId ? `https://nadziraka.glitch.me/notes/${profileId}` : 'https://nadziraka.glitch.me/notes';
 
       fetch(url, {
         method: method,
@@ -167,7 +167,7 @@ window.addEventListener('load', typeHello);
 
 
 // Auto-load sticky notes when page loads
-fetch('https://nadziraka.glitch.me/profile')
+fetch('https://nadziraka.glitch.me/notes')
   .then(response => {
     if (!response.ok) throw new Error('Gagal fetch');
     return response.json();
