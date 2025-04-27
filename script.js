@@ -49,7 +49,7 @@ loadBtn.addEventListener('click', () => {
     });
 });
 
-function updateStickyNotes(profiles) {
+function updateStickyNotes(notes) {
   stickyWrapper.innerHTML = ''; // Bersihkan dulu
 
   const colors = ['yellow', 'pink', 'blue', 'green', 'purple', 'orange'];
@@ -79,7 +79,7 @@ function updateStickyNotes(profiles) {
   }
 }
 
-function editStickyNote(note, profileId) {
+function editStickyNote(note, noteId) {
     const currentTitle = note.querySelector('h4').textContent;
     const currentContent = note.querySelector('p').textContent;
     const originalTitle = currentTitle; // Store the original title
@@ -102,10 +102,10 @@ function editStickyNote(note, profileId) {
       const updatedTitle = note.querySelector('#judul').value;
       const updatedContent = note.querySelector('#isi').value;
 
-      console.log('Saving...', { updatedTitle, updatedContent, profileId });  // Debugging log
+      console.log('Saving...', { updatedTitle, updatedContent, noteId });  // Debugging log
 
-      const method = profileId ? 'PUT' : 'POST';
-      const url = profileId ? `https://nadziraka.glitch.me/notes/${profileId}` : 'https://nadziraka.glitch.me/notes';
+      const method = noteId ? 'PUT' : 'POST';
+      const url = noteId ? `https://nadziraka.glitch.me/notes/${noteId}` : 'https://nadziraka.glitch.me/notes';
 
       fetch(url, {
         method: method,
@@ -113,7 +113,7 @@ function editStickyNote(note, profileId) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          id: profileId || Date.now(),  // If no profileId, generate a new ID
+          id: noteId || Date.now(),  // If no profileId, generate a new ID
           judul: updatedTitle,
           isi: updatedContent,
         }),
@@ -132,7 +132,7 @@ function editStickyNote(note, profileId) {
           <button class="btn edit-btn">Edit</button>
         `;
         const editBtn = note.querySelector('.edit-btn');
-        editBtn.addEventListener('click', () => editStickyNote(note, profileId || null));
+        editBtn.addEventListener('click', () => editStickyNote(note, noteId || null));
       })
       .catch(error => {
         console.error('Error saving note:', error);
@@ -148,7 +148,7 @@ function editStickyNote(note, profileId) {
         <button class="btn edit-btn">Edit</button>
       `;
       const editBtn = note.querySelector('.edit-btn');
-      editBtn.addEventListener('click', () => editStickyNote(note, profileId || null));
+      editBtn.addEventListener('click', () => editStickyNote(note, noteId || null));
     });
 }
 
