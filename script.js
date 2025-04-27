@@ -59,10 +59,10 @@ function updateStickyNotes(profiles) {
     const note = document.createElement('div');
     note.className = `sticky-note ${colors[i % colors.length]}`;
 
-    if (profiles[i]) {
+    if (notes[i]) {
       note.innerHTML = `
-        <h4>${profiles[i].judul}</h4>
-        <p>${profiles[i].isi}</p>
+        <h4>${notes[i].judul}</h4>
+        <p>${notes[i].isi}</p>
         <button class="btn edit-btn">Edit</button>
       `;
     } else {
@@ -75,7 +75,7 @@ function updateStickyNotes(profiles) {
 
     stickyWrapper.appendChild(note);
     const editBtn = note.querySelector('.edit-btn');
-    editBtn.addEventListener('click', () => editStickyNote(note, profiles[i] ? profiles[i].id : null));
+    editBtn.addEventListener('click', () => editStickyNote(note, notes[i] ? notes[i].id : null));
   }
 }
 
