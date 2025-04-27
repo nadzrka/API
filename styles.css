@@ -21,6 +21,26 @@ body {
     text-align: center;
   }
 
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  
+  #content {
+    min-height: calc(100vh - 70px); /* 70px kira-kira setinggi footernya */
+    padding-bottom: 70px; /* Optional: beri ruang supaya konten tidak ketiban footer */
+  }
+  
+  footer {
+    background: linear-gradient(45deg, #ff9a8b, #f7e3b4);
+    color: white;
+    text-align: center;
+    padding: 15px 0;
+    width: 100%;
+    position: relative;
+  }
+
 
   h1 {
     font-family: 'Courier New', Courier, monospace; /* Biar lebih kayak mesin ketik */
